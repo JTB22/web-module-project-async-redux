@@ -1,8 +1,8 @@
-import { FETCH_ACTIVITY } from "../actions/activityActions";
+import { FETCH_ACTIVITY, TOGGLE_FETCHING } from "../actions/activityActions";
 
 const initialState = {
-  activity: "",
-  key: Date.now(),
+  activity: [],
+  isFetching: false,
 };
 
 export const activityReducer = (state = initialState, action) => {
@@ -10,8 +10,13 @@ export const activityReducer = (state = initialState, action) => {
     case FETCH_ACTIVITY:
       return {
         ...state,
-        activity: action.payload.activity,
-        key: action.payload.key,
+        activity: action.payload,
+        isFetching: false,
+      };
+    case TOGGLE_FETCHING:
+      return {
+        ...state,
+        isFetching: !state.isFetching,
       };
     default:
       return state;

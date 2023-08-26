@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { connect } from "react-redux";
 import { fetchActivity } from "./actions/activityActions";
+import { addTodo, toggleTodo, removeTodo } from "./actions/toDoActions";
 
 function App(props) {
   return (
@@ -11,11 +12,38 @@ function App(props) {
       </div>
       <div className="container">
         <div className="col">
-          <button onClick={() => props.fetchActivity()}>Find Activity</button>
-          <p>{props.activity}</p>
+          {props.isFetching ? (
+            <button disabled>Fetching...</button>
+          ) : (
+            <button onClick={() => props.fetchActivity()}>Find Activity</button>
+          )}
+          {props.activity.length === 0 ? (
+            <p>Start by clicking the button!</p>
+          ) : (
+            <p key={props.activity.key}>
+              {props.activity.activity}
+              <span onClick={() => props.addTodo(props.activity)}>
+                &#x2714;
+              </span>
+            </p>
+          )}
         </div>
         <div className="col">
-          <button>To-Do List (Hide)</button>
+          <button onClick={() => props.toggleTodo()}>
+            To-Do List {props.isHidden ? "(Show)" : "(Hide)"}
+          </button>
+          {props.isHidden || props.todos.length === 0 ? null : (
+            <ul>
+              {props.todos.map((todo) => (
+                <li key={todo.key}>
+                  {todo.activity}
+                  <span onClick={() => props.removeTodo(todo.key)}>
+                    &#x2718;
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>
@@ -24,8 +52,16 @@ function App(props) {
 
 const mapStateToProps = (state) => {
   return {
-    activity: state.activity,
+    activity: state.a.activity,
+    isFetching: state.a.isFetching,
+    todos: state.b.toDos,
+    isHidden: state.b.isHidden,
   };
 };
 
-export default connect(mapStateToProps, { fetchActivity })(App);
+export default connect(mapStateToProps, {
+  fetchActivity,
+  addTodo,
+  toggleTodo,
+  removeTodo,
+})(App);
