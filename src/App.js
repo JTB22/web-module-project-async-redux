@@ -2,9 +2,19 @@ import React from "react";
 import "./App.css";
 import { connect } from "react-redux";
 import { fetchActivity } from "./actions/activityActions";
-import { addTodo, toggleTodo, removeTodo } from "./actions/toDoActions";
+import {
+  addTodo,
+  toggleTodo,
+  removeTodo,
+  resetMessage,
+} from "./actions/toDoActions";
 
 function App(props) {
+  const handleFetch = () => {
+    props.fetchActivity();
+    props.resetMessage();
+  };
+
   return (
     <div className="App">
       <div className="App-logo">
@@ -15,7 +25,7 @@ function App(props) {
           {props.isFetching ? (
             <button disabled>Fetching...</button>
           ) : (
-            <button onClick={() => props.fetchActivity()}>Find Activity</button>
+            <button onClick={() => handleFetch()}>Find Activity</button>
           )}
           {props.activity.length === 0 ? (
             <p>Start by clicking the button!</p>
@@ -37,7 +47,11 @@ function App(props) {
               {props.todos.map((todo) => (
                 <li key={todo.key}>
                   {todo.activity}
-                  <span onClick={() => props.removeTodo(todo.key)}>
+                  <span
+                    onClick={() =>
+                      props.removeTodo(todo.key) + props.resetMessage()
+                    }
+                  >
                     &#x2718;
                   </span>
                 </li>
@@ -45,6 +59,9 @@ function App(props) {
             </ul>
           )}
         </div>
+      </div>
+      <div className="message">
+        <p>{props.message}</p>
       </div>
     </div>
   );
@@ -56,6 +73,7 @@ const mapStateToProps = (state) => {
     isFetching: state.a.isFetching,
     todos: state.b.toDos,
     isHidden: state.b.isHidden,
+    message: state.b.message,
   };
 };
 
@@ -64,4 +82,5 @@ export default connect(mapStateToProps, {
   addTodo,
   toggleTodo,
   removeTodo,
+  resetMessage,
 })(App);
