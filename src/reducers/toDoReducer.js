@@ -20,6 +20,10 @@ export const toDoReducer = (state = initialState, action) => {
           message: "You already added this activity to your To-Do List!",
         };
       }
+      localStorage.setItem(
+        "toDos",
+        JSON.stringify([...state.toDos, action.payload])
+      );
       return {
         ...state,
         toDos: [...state.toDos, action.payload],

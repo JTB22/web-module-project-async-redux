@@ -15,6 +15,26 @@ function App(props) {
     props.resetMessage();
   };
 
+  const getStorage = () => {
+    if (localStorage.getItem("toDos") !== null) {
+      const toDos = JSON.parse(localStorage.getItem("toDos"));
+      if (toDos.length > 0) {
+        toDos.map((todo) => props.addTodo(todo));
+      }
+    }
+  };
+
+  const removeLocal = (key) => {
+    props.removeTodo(key);
+    props.resetMessage();
+    const toDos = JSON.parse(localStorage.getItem("toDos"));
+    const newToDos = toDos.filter((todo) => todo.key !== key);
+    localStorage.setItem("toDos", JSON.stringify(newToDos));
+  };
+  React.useEffect(() => {
+    getStorage();
+  }, []);
+
   return (
     <div className="App">
       <div className="App-logo">
@@ -47,13 +67,7 @@ function App(props) {
               {props.todos.map((todo) => (
                 <li key={todo.key}>
                   {todo.activity}
-                  <span
-                    onClick={() =>
-                      props.removeTodo(todo.key) + props.resetMessage()
-                    }
-                  >
-                    &#x2718;
-                  </span>
+                  <span onClick={() => removeLocal(todo.key)}>&#x2718;</span>
                 </li>
               ))}
             </ul>
