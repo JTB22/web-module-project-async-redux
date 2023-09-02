@@ -3,6 +3,7 @@ import {
   TOGGLE_TODO,
   REMOVE_TODO,
   RESET_MESSAGE,
+  CLEAR_TODOS,
 } from "../actions/toDoActions";
 
 const initialState = {
@@ -42,6 +43,13 @@ export const toDoReducer = (state = initialState, action) => {
       return {
         ...state,
         message: "",
+      };
+    case CLEAR_TODOS:
+      localStorage.removeItem("toDos");
+      return {
+        ...state,
+        toDos: [],
+        message: "Your To-Do List has been cleared!",
       };
     default:
       return state;

@@ -2,6 +2,7 @@ export const ADD_TODO = "ADD_TODO";
 export const TOGGLE_TODO = "TOGGLE_TODO";
 export const REMOVE_TODO = "REMOVE_TODO";
 export const RESET_MESSAGE = "RESET_MESSAGE";
+export const CLEAR_TODOS = "CLEAR_TODOS";
 
 export const addTodo = (todo) => {
   return {
@@ -26,5 +27,11 @@ export const removeTodo = (key) => {
 export const resetMessage = () => {
   return {
     type: RESET_MESSAGE,
+  };
+};
+
+export const clearTodos = () => {
+  return {
+    type: CLEAR_TODOS,
   };
 };

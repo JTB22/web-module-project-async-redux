@@ -7,6 +7,7 @@ import {
   toggleTodo,
   removeTodo,
   resetMessage,
+  clearTodos,
 } from "./actions/toDoActions";
 
 function App(props) {
@@ -63,6 +64,9 @@ function App(props) {
             To-Do List {props.isHidden ? "(Show)" : "(Hide)"}
           </button>
           {props.isHidden || props.todos.length === 0 ? null : (
+            <button onClick={() => props.clearTodos()}>Clear List</button>
+          )}
+          {props.isHidden || props.todos.length === 0 ? null : (
             <ul>
               {props.todos.map((todo) => (
                 <li key={todo.key}>
@@ -97,4 +101,5 @@ export default connect(mapStateToProps, {
   toggleTodo,
   removeTodo,
   resetMessage,
+  clearTodos,
 })(App);
