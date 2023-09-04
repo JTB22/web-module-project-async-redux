@@ -28,6 +28,7 @@ export const toDoReducer = (state = initialState, action) => {
       return {
         ...state,
         toDos: [...state.toDos, action.payload],
+        message: "Activity added",
       };
     case TOGGLE_TODO:
       return {
