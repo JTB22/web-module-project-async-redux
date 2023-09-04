@@ -34,6 +34,7 @@ export const toDoReducer = (state = initialState, action) => {
       return {
         ...state,
         isHidden: !state.isHidden,
+        message: "",
       };
     case REMOVE_TODO:
       return {
