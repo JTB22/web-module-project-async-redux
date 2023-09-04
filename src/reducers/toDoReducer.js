@@ -40,6 +40,7 @@ export const toDoReducer = (state = initialState, action) => {
       return {
         ...state,
         toDos: state.toDos.filter((todo) => todo.key !== action.payload),
+        message: "Activity removed",
       };
     case RESET_MESSAGE:
       return {
@@ -51,7 +52,7 @@ export const toDoReducer = (state = initialState, action) => {
       return {
         ...state,
         toDos: [],
-        message: "Your To-Do List has been cleared!",
+        message: "To-Do List cleared!",
       };
     default:
       return state;
